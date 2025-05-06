@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="max-w-md mx-auto bg-white shadow rounded-lg p-6">
+  <h2 class="text-xl font-semibold mb-4">Create an Account</h2>
+  <form method="POST" class="space-y-4">
+    {{ form.hidden_tag() }}
+    <div>
+      {{ form.username.label(class="block text-sm font-medium") }}
+      {{ form.username(class="mt-1 w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300") }}
+      {% for err in form.username.errors %}<p class="text-red-600 text-sm">{{ err }}</p>{% endfor %}
+    </div>
+    <div>
+      {{ form.email.label(class="block text-sm font-medium") }}
+      {{ form.email(class="mt-1 w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300") }}
+      {% for err in form.email.errors %}<p class="text-red-600 text-sm">{{ err }}</p>{% endfor %}
+    </div>
+    <div>
+      {{ form.password.label(class="block text-sm font-medium") }}
+      {{ form.password(class="mt-1 w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300") }}
+      {% for err in form.password.errors %}<p class="text-red-600 text-sm">{{ err }}</p>{% endfor %}
+    </div>
+    <div>
+      {{ form.confirm_password.label(class="block text-sm font-medium") }}
+      {{ form.confirm_password(class="mt-1 w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300") }}
+      {% for err in form.confirm_password.errors %}<p class="text-red-600 text-sm">{{ err }}</p>{% endfor %}
+    </div>
+    <div class="text-center">
+      {{ form.submit(class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700") }}
+    </div>
+  </form>
+</div>
+{% endblock %}

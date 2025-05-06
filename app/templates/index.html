@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="max-w-md mx-auto bg-white shadow rounded-lg p-6 text-center">
+  <h2 class="text-2xl font-semibold mb-4">Welcome to StudyBuddy!</h2>
+  <div class="space-x-4">
+    <a href="{{ url_for('users.login') }}" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Log In</a>
+    <a href="{{ url_for('users.register') }}" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Register</a>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,6 @@
+Flask
+Flask-PyMongo
+Flask-WTF
+Werkzeug
+PyMongo
+Flask-Mail
