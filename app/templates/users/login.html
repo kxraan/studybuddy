@@ -1,22 +1,48 @@
 {% extends 'base.html' %}
+{% block title %}Log In{% endblock %}
 {% block content %}
-<div class="max-w-md mx-auto bg-white shadow rounded-lg p-6">
-  <h2 class="text-xl font-semibold mb-4">Log In</h2>
-  <form method="POST" class="space-y-4">
-    {{ form.hidden_tag() }}
-    <div>
-      {{ form.username.label(class="block text-sm font-medium") }}
-      {{ form.username(class="mt-1 w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300") }}
-      {% for err in form.username.errors %}<p class="text-red-600 text-sm">{{ err }}</p>{% endfor %}
+<div class="max-w-md mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+  <div class="bg-blue-600 text-white py-4 px-6">
+    <h2 class="text-2xl font-bold">Welcome Back!</h2>
+    <p class="text-blue-100">Log in to your StudyBuddy account</p>
+  </div>
+  
+  <div class="p-6">
+    <form method="POST" class="space-y-5">
+      {{ form.hidden_tag() }}
+      
+      <div>
+        {{ form.username.label(class="block text-sm font-medium text-gray-700") }}
+        <div class="mt-1 relative rounded-md shadow-sm">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <span class="text-gray-500">@</span>
+          </div>
+          {{ form.username(class="pl-10 w-full px-3 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500", placeholder="Enter your username") }}
+        </div>
+        {% for err in form.username.errors %}<p class="mt-1 text-red-600 text-sm">{{ err }}</p>{% endfor %}
+      </div>
+      
+      <div>
+        {{ form.password.label(class="block text-sm font-medium text-gray-700") }}
+        <div class="mt-1 relative rounded-md shadow-sm">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+            </svg>
+          </div>
+          {{ form.password(class="pl-10 w-full px-3 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500", placeholder="Enter your password") }}
+        </div>
+        {% for err in form.password.errors %}<p class="mt-1 text-red-600 text-sm">{{ err }}</p>{% endfor %}
+      </div>
+      
+      <div>
+        {{ form.submit(class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md shadow-sm transition duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500") }}
+      </div>
+    </form>
+    
+    <div class="mt-6 text-center text-sm">
+      <p class="text-gray-600">Don't have an account? <a href="{{ url_for('users.register') }}" class="text-blue-600 hover:text-blue-800 font-medium">Register here</a></p>
     </div>
-    <div>
-      {{ form.password.label(class="block text-sm font-medium") }}
-      {{ form.password(class="mt-1 w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300") }}
-      {% for err in form.password.errors %}<p class="text-red-600 text-sm">{{ err }}</p>{% endfor %}
-    </div>
-    <div class="text-center">
-      {{ form.submit(class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700") }}
-    </div>
-  </form>
+  </div>
 </div>
 {% endblock %}

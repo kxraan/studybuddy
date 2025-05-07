@@ -1,10 +1,81 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="max-w-md mx-auto bg-white shadow rounded-lg p-6 text-center">
-  <h2 class="text-2xl font-semibold mb-4">Welcome to StudyBuddy!</h2>
-  <div class="space-x-4">
-    <a href="{{ url_for('users.login') }}" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">Log In</a>
-    <a href="{{ url_for('users.register') }}" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">Register</a>
+<div class="max-w-5xl mx-auto">
+  <!-- Hero Section -->
+  <div class="bg-white shadow rounded-lg overflow-hidden mb-8">
+    <div class="md:flex">
+      <div class="p-8 md:w-1/2">
+        <h1 class="text-3xl font-bold text-blue-600 mb-4">Welcome to StudyBuddy!</h1>
+        <p class="text-gray-600 mb-6">A collaborative study planner and resource-sharing platform that helps students form study groups, create shared schedules, and exchange class-specific resources.</p>
+        
+        {% if not current_user.is_authenticated %}
+        <div class="space-x-4">
+          <a href="{{ url_for('users.login') }}" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 shadow-md">Log In</a>
+          <a href="{{ url_for('users.register') }}" class="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition duration-300 shadow-md">Register</a>
+        </div>
+        {% else %}
+        <div class="space-x-4">
+          <a href="#" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 shadow-md">My Study Groups</a>
+          <a href="#" class="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition duration-300 shadow-md">Create Group</a>
+        </div>
+        {% endif %}
+      </div>
+      <div class="bg-blue-50 md:w-1/2 p-8 flex items-center justify-center">
+        <img src="https://cdn-icons-png.flaticon.com/512/2995/2995620.png" alt="Study Group Illustration" class="w-64">
+      </div>
+    </div>
+  </div>
+
+  <!-- Features Section -->
+  <div class="grid md:grid-cols-3 gap-6 mb-8">
+    <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition duration-300">
+      <div class="text-blue-500 text-4xl mb-4">👥</div>
+      <h3 class="text-xl font-semibold mb-2">Form Study Groups</h3>
+      <p class="text-gray-600">Create or join course-specific study groups to collaborate with classmates.</p>
+    </div>
+    
+    <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition duration-300">
+      <div class="text-green-500 text-4xl mb-4">📅</div>
+      <h3 class="text-xl font-semibold mb-2">Schedule Sessions</h3>
+      <p class="text-gray-600">Plan and organize collaborative study sessions with your group members.</p>
+    </div>
+    
+    <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition duration-300">
+      <div class="text-purple-500 text-4xl mb-4">📚</div>
+      <h3 class="text-xl font-semibold mb-2">Share Resources</h3>
+      <p class="text-gray-600">Upload and exchange notes, links, and other study materials with your groups.</p>
+    </div>
+  </div>
+
+  <!-- Getting Started Section -->
+  <div class="bg-white p-8 rounded-lg shadow mb-8">
+    <h2 class="text-2xl font-semibold mb-4 text-center">How It Works</h2>
+    <div class="grid md:grid-cols-4 gap-4">
+      <div class="text-center">
+        <div class="bg-blue-100 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3">
+          <span class="font-bold">1</span>
+        </div>
+        <p>Create an account</p>
+      </div>
+      <div class="text-center">
+        <div class="bg-blue-100 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3">
+          <span class="font-bold">2</span>
+        </div>
+        <p>Join or create a study group</p>
+      </div>
+      <div class="text-center">
+        <div class="bg-blue-100 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3">
+          <span class="font-bold">3</span>
+        </div>
+        <p>Schedule study sessions</p>
+      </div>
+      <div class="text-center">
+        <div class="bg-blue-100 rounded-full w-12 h-12 flex items-center justify-center mx-auto mb-3">
+          <span class="font-bold">4</span>
+        </div>
+        <p>Share and access resources</p>
+      </div>
+    </div>
   </div>
 </div>
 {% endblock %}

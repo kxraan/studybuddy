@@ -1,20 +1,26 @@
 # app/config.py
 import os
 from datetime import timedelta
+from dotenv import load_dotenv
+
+# Load environment variables from config.env file
+config_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'config.env')
+if os.path.exists(config_path):
+    load_dotenv(config_path)
 
 class Config:
     SECRET_KEY = os.getenv('SECRET_KEY', 'dev-secret-key')
-    MONGO_URI  = os.getenv('MONGO_URI')
+    MONGO_URI = os.getenv('MONGO_URI', 'mongodb://localhost:27017/studybuddy')
     PERMANENT_SESSION_LIFETIME = timedelta(days=7)
 
     # Flask-Login
     SESSION_PROTECTION = 'strong'
-    PERMANENT_SESSION_LIFETIME = timedelta(days=7)
-
-    # session & uploads
-    PERMANENT_SESSION_LIFETIME = timedelta(days=7)
-    UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), 'static/uploads')
-    MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16MB
+    
+    # Flask-PyMongo settings
+    MONGO_DBNAME = 'studybuddy'
+    
+    # File uploads
+    MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16MB max upload size
 
     # Flask-Mail
     MAIL_SERVER = os.getenv('MAIL_SERVER', 'smtp.gmail.com')
