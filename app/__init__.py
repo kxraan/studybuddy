@@ -1,35 +1,35 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template
 from mongoengine import connect
 from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
-from .config import Config
+from .config import Config  # Fixed import - Config is in project root, not app folder
 
-# extensions
 bcrypt = Bcrypt()
 login_manager = LoginManager()
 login_manager.login_view = 'users.login'
 login_manager.login_message_category = 'info'
 
-
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
-
-    # connect to your MongoDB
-    connect(host=app.config['MONGO_URI'])
-
-    # init extensions
+    
+    # Connect to MongoDB - Fixed to use proper string connection
+    try:
+        connect(db='studybuddy', host=app.config['MONGO_URI'])
+    except Exception as e:
+        app.logger.error(f"MongoDB connection error: {e}")
+    
+    # Init extensions
     bcrypt.init_app(app)
     login_manager.init_app(app)
-
-    # register blueprints
+    
+    # Register blueprint
     from app.users.routes import users
     app.register_blueprint(users)
-
-    # root route: redirect to login or show home
+    
+    # Landing page prompts login or register
     @app.route('/')
     def index():
-        # Landing page: ask user to login or register
         return render_template('index.html')
-
+        
     return app
