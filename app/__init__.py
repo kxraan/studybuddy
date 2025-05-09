@@ -35,6 +35,10 @@ def create_app():
     # Register blueprint
     from app.users.routes import users
     app.register_blueprint(users)
+
+    from app.study import study
+    app.register_blueprint(study)
+
     
     # Landing page prompts login or register
     @app.route('/')

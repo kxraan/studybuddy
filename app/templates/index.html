@@ -15,8 +15,8 @@
         </div>
         {% else %}
         <div class="space-x-4">
-          <a href="#" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 shadow-md">My Study Groups</a>
-          <a href="#" class="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition duration-300 shadow-md">Create Group</a>
+          <a href="{{ url_for('study.my_groups') }}" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-300 shadow-md">My Study Groups</a>
+          <a href="{{ url_for('study.create_group') }}" class="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition duration-300 shadow-md">Create Group</a>
         </div>
         {% endif %}
       </div>

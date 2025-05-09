@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+{% block title %}{{ group.course_name }}{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto bg-white p-6 rounded shadow">
+  <!-- Group Info -->
+  <h2 class="text-2xl font-bold text-purple-600 mb-2">{{ group.course_name }}</h2>
+  <p class="text-gray-700 mb-4">{{ group.description }}</p>
+
+  {% if group.tags %}
+    <div class="text-sm text-gray-500 mb-4">
+      <strong>Tags:</strong> {{ group.tags | join(', ') }}
+    </div>
+  {% endif %}
+
+  <hr class="my-6">
+
+  <!-- Schedule a Session -->
+  <h3 class="text-xl font-semibold mb-2">Schedule a Session</h3>
+  <form method="POST" class="mb-6">
+    {{ form.hidden_tag() }}
+
+    <div class="mb-4">
+      {{ form.date_time.label(class_="block text-gray-700 font-medium mb-1") }}
+      {{ form.date_time(class_="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500") }}
+      {% for error in form.date_time.errors %}
+        <p class="text-red-600 text-sm">{{ error }}</p>
+      {% endfor %}
+    </div>
+
+    <div class="mb-4">
+      {{ form.zoom_link.label(class_="block text-gray-700 font-medium mb-1") }}
+      {{ form.zoom_link(class_="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500") }}
+      {% for error in form.zoom_link.errors %}
+        <p class="text-red-600 text-sm">{{ error }}</p>
+      {% endfor %}
+    </div>
+
+    <div>
+      {{ form.submit(class_="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700") }}
+    </div>
+  </form>
+
+  <!-- Scheduled Sessions -->
+  <h3 class="text-xl font-semibold mb-2">Scheduled Sessions</h3>
+
+  {% if sessions %}
+    <ul class="space-y-4">
+      {% for session in sessions %}
+        <li class="border p-4 rounded shadow-sm">
+          <div class="text-gray-800 font-medium">
+            {{ session.date_time.strftime('%A, %b %d %Y at %I:%M %p') }}
+          </div>
+          {% if session.zoom_link %}
+            <a href="{{ session.zoom_link }}" target="_blank" class="text-blue-600 underline">
+              Join Zoom Session
+            </a>
+          {% endif %}
+          <p class="text-sm text-gray-500">Scheduled by {{ session.created_by }}</p>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="text-gray-500">No sessions scheduled yet.</p>
+  {% endif %}
+
+  <hr class="my-6">
+
+  <h3 class="text-xl font-semibold mb-2">Share a Resource</h3>
+<form method="POST" enctype="multipart/form-data" class="mb-6">
+  {{ resource_form.hidden_tag() }}
+
+  <div class="mb-4">
+    {{ resource_form.title.label(class_="block text-gray-700 font-medium mb-1") }}
+    {{ resource_form.title(class_="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-500") }}
+    {% for error in resource_form.title.errors %}
+      <p class="text-red-600 text-sm">{{ error }}</p>
+    {% endfor %}
+  </div>
+
+  <div class="mb-4">
+    {{ resource_form.description.label(class_="block text-gray-700 font-medium mb-1") }}
+    {{ resource_form.description(class_="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-500") }}
+    {% for error in resource_form.description.errors %}
+      <p class="text-red-600 text-sm">{{ error }}</p>
+    {% endfor %}
+  </div>
+
+  <div class="mb-4">
+    {{ resource_form.file.label(class_="block text-gray-700 font-medium mb-1") }}
+    {{ resource_form.file(class_="w-full") }}
+    {% for error in resource_form.file.errors %}
+      <p class="text-red-600 text-sm">{{ error }}</p>
+    {% endfor %}
+  </div>
+
+  <div class="mb-4">
+    {{ resource_form.link.label(class_="block text-gray-700 font-medium mb-1") }}
+    {{ resource_form.link(class_="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-purple-500") }}
+    {% for error in resource_form.link.errors %}
+      <p class="text-red-600 text-sm">{{ error }}</p>
+    {% endfor %}
+  </div>
+
+  <div>
+    {{ resource_form.submit(class_="bg-purple-600 text-white px-4 py-2 rounded hover:bg-purple-700") }}
+  </div>
+</form>
+
+<h3 class="text-xl font-semibold mb-2">Shared Resources</h3>
+
+{% if resources %}
+  <ul class="space-y-4">
+    {% for res in resources %}
+      <li class="border p-4 rounded shadow-sm">
+        <h4 class="text-lg font-bold text-purple-600">{{ res.title }}</h4>
+        <p class="text-gray-700">{{ res.description }}</p>
+
+        {% if res.file_url %}
+          <a href="{{ res.file_url }}" target="_blank" class="text-blue-600 underline block mt-2">Download File</a>
+        {% endif %}
+        {% if res.link %}
+          <a href="{{ res.link }}" target="_blank" class="text-blue-600 underline block mt-1">External Link</a>
+        {% endif %}
+
+        <p class="text-sm text-gray-500 mt-2">Shared by {{ res.uploaded_by }} on {{ res.uploaded_at.strftime('%b %d, %Y %I:%M %p') }}</p>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p class="text-gray-500">No resources uploaded yet.</p>
+{% endif %}
+
+
+
+<h3 class="text-xl font-semibold mb-2">Leave a Comment</h3>
+<form method="POST" class="mb-6">
+  {{ comment_form.hidden_tag() }}
+  
+  <div class="mb-4">
+    {{ comment_form.content.label(class_="block text-gray-700 font-medium mb-1") }}
+    {{ comment_form.content(class_="w-full px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-indigo-500") }}
+    {% for error in comment_form.content.errors %}
+      <p class="text-red-600 text-sm">{{ error }}</p>
+    {% endfor %}
+  </div>
+
+  <div>
+    {{ comment_form.submit(class_="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700") }}
+  </div>
+</form>
+
+<h3 class="text-xl font-semibold mb-2">Recent Comments</h3>
+
+{% if comments %}
+  <ul class="space-y-4">
+    {% for c in comments %}
+      <li class="border p-4 rounded shadow-sm bg-gray-50">
+        <p class="text-gray-800">{{ c.content }}</p>
+        <p class="text-sm text-gray-500 mt-2">Posted by {{ c.author }} on {{ c.posted_at.strftime('%b %d, %Y at %I:%M %p') }}</p>
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p class="text-gray-500">No comments yet.</p>
+{% endif %}
+
+</div>
+{% endblock %}

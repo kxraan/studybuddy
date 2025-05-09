@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block title %}Create Group{% endblock %}
+{% block content %}
+<div class="max-w-3xl mx-auto bg-white p-8 rounded shadow">
+  <h2 class="text-2xl font-semibold text-blue-600 mb-6">Create a Study Group</h2>
+  <form method="POST">
+    {{ form.hidden_tag() }}
+
+    <div class="mb-4">
+      {{ form.course_name.label(class_="block text-gray-700 font-medium mb-2") }}
+      {{ form.course_name(class_="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500") }}
+      {% for error in form.course_name.errors %}
+        <p class="text-red-600 text-sm mt-1">{{ error }}</p>
+      {% endfor %}
+    </div>
+
+    <div class="mb-4">
+      {{ form.description.label(class_="block text-gray-700 font-medium mb-2") }}
+      {{ form.description(class_="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500") }}
+      {% for error in form.description.errors %}
+        <p class="text-red-600 text-sm mt-1">{{ error }}</p>
+      {% endfor %}
+    </div>
+
+    <div class="mb-6">
+      {{ form.tags.label(class_="block text-gray-700 font-medium mb-2") }}
+      {{ form.tags(class_="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500") }}
+      <p class="text-sm text-gray-500 mt-1">Enter tags separated by commas (e.g. flask, cmsc388j)</p>
+      {% for error in form.tags.errors %}
+        <p class="text-red-600 text-sm mt-1">{{ error }}</p>
+      {% endfor %}
+    </div>
+
+    <div>
+      {{ form.submit(class_="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition") }}
+      <a href="{{ url_for('index') }}" class="ml-4 text-blue-600 hover:underline">Cancel</a>
+    </div>
+  </form>
+</div>
+{% endblock %}
