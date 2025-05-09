@@ -13,6 +13,19 @@
     </div>
   {% endif %}
 
+  <h3 class="text-xl font-semibold mt-6 mb-2">Group Members</h3>
+
+{% if group.members %}
+  <ul class="list-disc list-inside text-gray-700">
+    {% for member in group.members %}
+      <li>{{ member }}</li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p class="text-gray-500">No members yet.</p>
+{% endif %}
+
+
   <hr class="my-6">
 
   <!-- Schedule a Session -->

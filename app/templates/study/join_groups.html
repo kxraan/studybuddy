@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block title %}Join a Group{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto bg-white p-6 rounded shadow">
+  <h2 class="text-2xl font-bold text-green-600 mb-6">Join a Study Group</h2>
+
+  {% if groups %}
+    <ul class="space-y-6">
+      {% for group in groups %}
+        <li class="border p-4 rounded shadow-sm bg-gray-50">
+            <a href="{{ url_for('study.view_group', group_id=group._id) }}">
+                <h3 class="text-xl font-semibold text-purple-600 hover:underline">
+                  {{ group.course_name }}
+                </h3>
+              </a>
+                        <p class="text-gray-700 mb-2">{{ group.description }}</p>
+          {% if group.tags %}
+            <p class="text-sm text-gray-500 mb-2">
+              <strong>Tags:</strong> {{ group.tags | join(', ') }}
+            </p>
+          {% endif %}
+          <p class="text-sm text-gray-500 mb-4">
+            Created by {{ group.created_by }}
+          </p>
+
+          {% if current_user.username in group.members %}
+            <p class="text-green-700 font-medium">✅ You’re already a member</p>
+          {% else %}
+            <form method="POST">
+              <input type="hidden" name="group_id" value="{{ group._id }}">
+              <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                Join This Group
+              </button>
+            </form>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p class="text-gray-600">No groups available to join.</p>
+  {% endif %}
+</div>
+{% endblock %}

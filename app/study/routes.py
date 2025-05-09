@@ -30,7 +30,8 @@ def create_group():
             "description": form.description.data.strip(),
             "tags": tags,
             "created_by": current_user.username,  
-            "created_at": datetime.utcnow()       
+            "created_at": datetime.utcnow(),
+            "members": [current_user.username]    
         }
         
         try:
@@ -142,5 +143,36 @@ def view_group(group_id):
         comments=comments
     )
 
+@study.route('/join', methods=['GET', 'POST'])
+@login_required
+def join_groups():
+    try:
+        all_groups = list(mongo.db.groups.find({}))
+
+        if request.method == 'POST':
+            group_id = request.form.get('group_id')
+            group = mongo.db.groups.find_one({"_id": ObjectId(group_id)})
+
+            if not group:
+                flash("Group not found.", "danger")
+                return redirect(url_for('study.join_groups'))
+
+            if current_user.username not in group.get('members', []):
+                mongo.db.groups.update_one(
+                    {"_id": ObjectId(group_id)},
+                    {"$push": {"members": current_user.username}}
+                )
+                flash(f"You joined {group['course_name']}!", "success")
+            else:
+                flash("You are already a member of this group.", "info")
+
+            return redirect(url_for('study.join_groups'))
+
+        return render_template('study/join_groups.html', groups=all_groups)
+
+    except Exception as e:
+        current_app.logger.error(f"Error in join_groups: {e}")
+        flash("Something went wrong.", "danger")
+        return redirect(url_for('study.my_groups'))
 
 
