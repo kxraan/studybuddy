@@ -1,53 +1,85 @@
-# studybuddy
-Collaborative Flask app for scheduling, studying, and sharing resources.
+StudyBuddy
 
+StudyBuddy is a collaborative web app built with Flask designed to help students schedule study sessions, form study groups, and share class-specific resources.
 
-Q1 Description of your final project idea:
-80 Points
-Grading comment:
-StudyBuddy - A collaborative study planner and resource sharing app that helps students form study groups, create shared schedules, and exchange class-specific resources. Users can sign up, create study rooms for specific courses, schedule collaborative sessions, upload/share notes or links, and comment on resources.
-Q2 Describe what functionality will only be available to logged-in users:
-4 Points
-Grading comment:
-Only logged-in users can create study rooms, upload or download notes/resources, comment on sessions/resources and join study groups
-Q3 List and describe at least 4 forms:
-4 Points
-Grading comment:
-Register Form – username, email, password
-Login Form – email, password 
-Create Study Group Form – course name, description, tags 
-Session Scheduler Form – date/time, Zoom link, group name
-Q4 List and describe your routes/blueprints (don’t need to list all routes/blueprints you may have–just enough for the requirement):
-4 Points
-Grading comment:
-auth Blueprint:
-- /register – user registration  
-- /login – user login  
-- /logout – user logout
+Project Overview
 
-study Blueprint:
-- /create-group – create a new study group  
-- /group/<id> – view group, post sessions/resources/comments  
-- /schedule-session – schedule collaborative study session  
-- /upload-resource – upload or link study material
-Q5 Describe what will be stored/retrieved from MongoDB:
-4 Points
-Grading comment:
-Collections:
-- users – user profiles and credentials  
-- groups – course-specific study groups  
-- sessions – scheduled group study sessions  
-- resources – uploaded files/links  
-- comments – threaded or flat comments on resources
+StudyBuddy helps users:
 
-We’ll use PyMongo to interact with the DB:
-- When a group is created, we insert into groups.
-- When a session is created, we insert into sessions.
-- When viewing a group, we query resources and sessions.
-Q6 Describe what Python package or API you will use and how it will affect the user experience:
-4 Points
-Grading comment:
-Flask-Mail
-- Sends email confirmations to group members when:
-  - A new session is created
-  - A new resource is added
+* Create and join study groups organized by course
+* Schedule collaborative study sessions (e.g., via Zoom)
+* Upload and share class notes, links, and other resources
+* Comment on shared resources and sessions
+
+---
+
+Features for Logged-In Users
+
+Only authenticated users can:
+
+* Create study groups and schedule sessions
+* Upload or download study materials
+* Post comments on resources and sessions
+* Join and participate in study rooms
+
+---
+
+## 📝 Forms
+
+1. Register Form
+   Fields: username, email, password
+
+2. Login Form
+   Fields: email, password
+
+3. Create Study Group Form
+   Fields: course name, description, tags
+
+4. Session Scheduler Form
+   Fields: date/time, Zoom link, group name
+
+---
+
+Routes and Blueprints
+
+auth Blueprint
+
+* /register – Register a new user
+* /login – User login
+* /logout – Log out
+
+study Blueprint
+
+* /create-group – Create a new study group
+* /group/<id> – View group details, post sessions/resources/comments
+* /schedule-session – Schedule a collaborative session
+* /upload-resource – Upload or link to study materials
+
+---
+
+MongoDB Collections
+
+Using PyMongo to interact with the database:
+
+* users – Stores user credentials and profiles
+* groups – Stores study group metadata
+* sessions – Stores scheduled study sessions
+* resources – Stores uploaded files and links
+* comments – Stores comments on sessions and resources
+
+Database Operations
+
+* Creating a group inserts into groups
+* Scheduling a session inserts into sessions
+* Viewing a group queries resources and sessions
+
+---
+
+Flask-Mail Integration
+
+Flask-Mail is used to enhance collaboration and engagement:
+
+Sends email notifications to group members when:
+
+* A new session is scheduled
+* A new resource is uploaded

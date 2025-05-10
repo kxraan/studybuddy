@@ -21,11 +21,8 @@ class ScheduleSessionForm(FlaskForm):
         validators=[DataRequired()],
         render_kw={"type": "datetime-local"}
     )
-    zoom_link = StringField('Zoom Link (optional)', validators=[Optional(), URL()])
+    zoom_link = StringField('Meeting Link (optional)', validators=[Optional(), URL()])
     submit = SubmitField('Schedule Session')
-
-
-
 
 class ResourceForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired(), Length(max=100)])

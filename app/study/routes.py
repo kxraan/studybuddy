@@ -9,6 +9,7 @@ from bson.objectid import ObjectId
 from werkzeug.utils import secure_filename
 import os
 from app.study.forms import CommentForm
+from app.users.mail import send_group_email
 
 
 UPLOAD_FOLDER = 'app/static/uploads'
@@ -85,6 +86,28 @@ def view_group(group_id):
                 "created_at": datetime.utcnow()
             }
             mongo.db.sessions.insert_one(session_data)
+            
+           # Collect recipient emails
+            emails = []
+            for username in group.get("members", []):
+                user_doc = mongo.db.users.find_one({"username": username})
+                if user_doc and user_doc.get("email"):
+                    emails.append(user_doc["email"])
+
+            # Send the email
+            if emails:
+                subject = f"New Session Scheduled for {group['course_name']}"
+                body = f"""
+            Hi,
+
+            A new session has been scheduled in your group: {group['course_name']}
+
+            Scheduled by: {current_user.username}
+            Date/Time: {form.date_time.data}
+            Zoom Link: {form.zoom_link.data or 'N/A'}
+            """
+                send_group_email(subject, emails, body)
+
             flash("Session scheduled successfully!", "success")
             return redirect(url_for('study.view_group', group_id=group_id))
 
@@ -107,6 +130,23 @@ def view_group(group_id):
                 "uploaded_at": datetime.utcnow()
             }
             mongo.db.resources.insert_one(resource_data)
+            # Fetch member emails
+            emails = []
+            for username in group.get("members", []):
+                user_doc = mongo.db.users.find_one({"username": username})
+                if user_doc and user_doc.get("email"):
+                    emails.append(user_doc["email"])
+
+            # Send email
+            subject = f"New Resource Shared in {group['course_name']}"
+            body = f"""
+            {current_user.username} has shared a new resource: {resource_form.title.data}
+
+            Description: {resource_form.description.data}
+            Link: {resource_form.link.data or 'Uploaded File'}
+            """
+            send_group_email(subject, emails, body)
+
             flash("Resource shared successfully!", "success")
             return redirect(url_for('study.view_group', group_id=group_id))
 
